@@ -41,8 +41,11 @@ function App() {
         />
 
         <Route 
-          path="/service/:id"
+          path="/services/:id"
           render={props => {
+            console.log(props.match.params.id)
+            const service = dentalServices.find(service => service.id.toString() === props.match.params.id )
+            props = {...props, ...service}
             return <Service  {...props} /> 
           }}
         />
