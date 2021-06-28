@@ -1,9 +1,12 @@
 import './App.css';
+import { useState } from 'react'
 
 import Home from './components/Home.jsx'
 import Contact from './components/Contact.jsx'
 import Services from './components/Services.jsx'
 import Header from './components/Header'
+import serviceDetails from './data/serviceDetails'
+import Service from './components/Service'
 
 import {
   BrowserRouter as Router, // alias BrowserRouter as Router
@@ -11,14 +14,14 @@ import {
 } from 'react-router-dom'
 
 function App() { 
-  const dentalServices = [
-    "Deep Cleaning",
-    "Filling",
-    "Gum Massage",
-    "Root Canal",
-    "Oral Mud Bath"
-  ]
-
+  const [dentalServices] = useState(serviceDetails)
+  // const dentalServices = [
+  //   "Deep Cleaning",
+  //   "Filling",
+  //   "Gum Massage",
+  //   "Root Canal",
+  //   "Oral Mud Bath"
+  // ]
 
   return (
     <div className="App">
@@ -33,8 +36,15 @@ function App() {
         <Route path="/contact" component={Contact} />
 
         <Route 
-          path="/services" 
+          exact path="/services" 
           render={() => <Services dentalServices={dentalServices} />}
+        />
+
+        <Route 
+          path="/service/:id"
+          render={props => {
+            return <Service  {...props} /> 
+          }}
         />
 
         {/* example of how route params work */}

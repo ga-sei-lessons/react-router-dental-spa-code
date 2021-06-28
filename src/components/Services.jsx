@@ -1,6 +1,12 @@
+import { Link } from 'react-router-dom'
+
 export default function Services(props) {
   const renderedServices = props.dentalServices.map((dentalService, idx) =>{
-    return <li key={idx}>{dentalService}</li>
+    return (
+      <li key={idx}>
+        <Link to={`/services/${dentalService.id}`}>{dentalService.name}</Link>
+      </li>
+    ) 
   })
   return (
     <div>
