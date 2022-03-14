@@ -1,18 +1,21 @@
 import './App.css';
 import { useState } from 'react'
 
-import Home from './components/Home.jsx'
-import Contact from './components/Contact.jsx'
-import Services from './components/Services.jsx'
-import Header from './components/Header'
+import Home from './components/pages/Home.jsx'
+import Contact from './components/pages/Contact.jsx'
+import Services from './components/pages/Services.jsx'
+import Header from './components/layout/Header'
 import serviceDetails from './data/serviceDetails'
-import Service from './components/Service'
+import Service from './components/pages/Service.jsx'
 
 import {
   BrowserRouter as Router, // alias BrowserRouter as Router
   Route,
-  Switch
+  Routes
 } from 'react-router-dom'
+import Add from './components/pages/Add';
+import NotFound from './components/pages/NotFound';
+import Example from './components/pages/Example';
 
 function App() { 
   const [dentalServices] = useState(serviceDetails)
@@ -31,56 +34,45 @@ function App() {
       <Router>
         <Header />
 
-        <Switch>
+        <Routes>
           {/* all routes are defined in the router */}
-          <Route exact path="/" component={Home} />
+          <Route 
+            exact path="/" 
+            element={<Home />} 
+          />
 
-          <Route path="/contact" component={Contact} />
+          <Route 
+            path="/contact" 
+            element={<Contact />} 
+          />
 
           <Route 
             exact path="/services" 
-            render={() => <Services dentalServices={dentalServices} />}
+            element={<Services dentalServices={dentalServices} />}
           />
 
           <Route 
             path="/services/:id"
-            render={props => {
-              console.log(props.match.params.id)
-              const service = dentalServices.find(service => service.id.toString() === props.match.params.id )
-              props = {...props, ...service}
-              return <Service  {...props} /> 
-            }}
+            element={<Service services={dentalServices} />}
           />
 
           {/* example of how route params work */}
           <Route 
             path="/resource/:id/otherResource/:otherId"
-            render={props => {
-              // whatever code we define here is run
-              console.log(props.match.params)
-
-              // whatever gets returned is rendered
-              return 
-            }}
+            element={<Example />}
           
           />
 
           <Route 
             path="/add/:x/:y"
-            render={props => {
-              const x = parseInt(props.match.params.x)
-              const y = parseInt(props.match.params.y)
-
-              return <h1>the value {x} + {y} = {x + y}</h1>
-
-            }}
+            element={<Add />}
           />
 
           <Route 
             path="*"
-            render={() => <h1>404 page not found 🕵️‍♀️</h1>}
+            element={<NotFound />}
           />
-        </Switch>
+        </Routes>
       </Router>
 
       <h4>example footer 🦶</h4>
